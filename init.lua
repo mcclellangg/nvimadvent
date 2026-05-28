@@ -27,12 +27,27 @@ vim.opt.cursorline = true
 --  See `:help vim.highlight.on_yank()`
 --  Changed from vim.highlight.on_yank() -> vim.hl.hl_op()
 vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Highlight when yanking (copying) text',
-  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-  callback = function()
-    vim.hl.hl_op()
-  end,
+	desc = 'Highlight when yanking (copying) text',
+	group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+	callback = function()
+		vim.hl.hl_op()
+	end,
 })
+
+--Markdown
+vim.api.nvim_create_autocmd("BufWritePre", {
+	desc = "Autoformat markdown on window save",
+	pattern = "*.md",
+	callback = function()
+		local save = vim.fn.winsaveview()
+		vim.cmd("normal! gggqG")
+		vim.fn.winrestview(save)
+	end,
+})
+
+
+
+
 
 --Enable lsps
 vim.lsp.enable("lua_ls")

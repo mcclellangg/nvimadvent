@@ -20,6 +20,7 @@ vim.opt.linebreak = true
 vim.opt.wrap = true
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
+vim.opt.relativenumber = true
 
 -- advent-of-nvim
 -- Highlight when yanking (copying) text
@@ -27,27 +28,43 @@ vim.opt.cursorline = true
 --  See `:help vim.highlight.on_yank()`
 --  Changed from vim.highlight.on_yank() -> vim.hl.hl_op()
 vim.api.nvim_create_autocmd('TextYankPost', {
-	desc = 'Highlight when yanking (copying) text',
-	group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-	callback = function()
-		vim.hl.hl_op()
-	end,
+  desc = 'Highlight when yanking (copying) text',
+  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+  callback = function()
+    vim.hl.hl_op()
+  end,
 })
 
 --Markdown
 vim.api.nvim_create_autocmd("BufWritePre", {
-	desc = "Autoformat markdown on window save",
-	pattern = "*.md",
-	callback = function()
-		local save = vim.fn.winsaveview()
-		vim.cmd("normal! gggqG")
-		vim.fn.winrestview(save)
-	end,
+  desc = "Autoformat markdown on window save",
+  pattern = "*.md",
+  callback = function()
+    local save = vim.fn.winsaveview()
+    vim.cmd("normal! gggqG")
+    vim.fn.winrestview(save)
+  end,
 })
 
+-- Global LSP Attach Hook (Applies to ALL enabled servers)
+-- Is this overkill for only lua ...
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if not client then return end
 
-
-
+    -- Global Format-on-Save
+    if client:supports_method("textDocument/formatting") then
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = args.buf,
+        callback = function()
+          vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
+        end,
+      })
+    end
+  end,
+})
 
 --Enable lsps
 vim.lsp.enable("lua_ls")

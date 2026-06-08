@@ -2,25 +2,25 @@
 
 return {
   "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate", 
-  
+  build = ":TSUpdate",
+
   config = function()
-    -- Use config NOT configs 
+    -- Use config NOT configs
     local ts_config = require("nvim-treesitter.config")
 
-ts_config.setup({
-      ensure_installed = { 
-        "lua", 
-        "vim", 
-        "vimdoc", 
-        "query", 
-        "markdown", 
+    ts_config.setup({
+      ensure_installed = {
+        "lua",
+        "vim",
+        "vimdoc",
+        "query",
+        "markdown",
         "markdown_inline",
-        "bash" 
+        "bash"
       },
-      
+
       -- Automatically download the parser if you open a new file type
-      auto_install = true, 
+      auto_install = true,
     })
   end,
 }

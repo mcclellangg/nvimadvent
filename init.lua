@@ -4,10 +4,8 @@ require("config.lazy")
 
 vim.opt.number = true
 
--- Adevent of Neovim
--- Allow p (put) to paste what is in your clipboard buffer!
+-- ==== GREAT Advent of Neovim ====
 vim.opt.clipboard = "unnamedplus"
--- This allows us to execute neovim changes in a live setting!
 vim.keymap.set("n", "<space><space>x", "<cmd>source %<CR>")
 vim.keymap.set("n", "<space>x", ":.lua<CR>")
 vim.keymap.set("v", "<space>x", ":lua<CR>")
@@ -22,11 +20,6 @@ vim.opt.termguicolors = true
 vim.opt.cursorline = true
 vim.opt.relativenumber = true
 
--- advent-of-nvim
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.highlight.on_yank()`
---  Changed from vim.highlight.on_yank() -> vim.hl.hl_op()
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
@@ -35,7 +28,24 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
---Markdown
+-- ==== Terminal
+vim.api.nvim_create_autocmd('TermOpen', {
+  desc = 'Custom terminal setup',
+  group = vim.api.nvim_create_augroup('custom-term-open', { clear = true }),
+  callback = function()
+    vim.opt.relativenumber = false
+    vim.opt.linebreak = false
+  end,
+})
+
+vim.keymap.set("n", "<space>st", function()
+  vim.cmd.vnew()
+  vim.cmd.term()
+  vim.cmd.wincmd("J")
+  vim.api.nvim_win_set_height(0, 5)
+end)
+
+-- ==== Markdown
 vim.api.nvim_create_autocmd("BufWritePre", {
   desc = "Autoformat markdown on window save",
   pattern = "*.md",

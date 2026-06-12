@@ -5,7 +5,6 @@ return {
   build = ":TSUpdate",
 
   config = function()
-    -- Use config NOT configs
     local ts_config = require("nvim-treesitter.config")
 
     ts_config.setup({
@@ -16,7 +15,8 @@ return {
         "query",
         "markdown",
         "markdown_inline",
-        "bash"
+        "bash",
+        "python",
       },
 
       -- Automatically download the parser if you open a new file type

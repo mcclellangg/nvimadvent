@@ -1,8 +1,5 @@
 print("advent of neovim")
-
 require("config.lazy")
-
-vim.opt.number = true
 
 -- ==== GREAT Advent of Neovim ====
 vim.opt.clipboard = "unnamedplus"
@@ -10,15 +7,13 @@ vim.keymap.set("n", "<space><space>x", "<cmd>source %<CR>")
 vim.keymap.set("n", "<space>x", ":.lua<CR>")
 vim.keymap.set("v", "<space>x", ":lua<CR>")
 
--- Move this to /after
-vim.cmd [[ hi @function.builtin.lua guifg=hotpink ]]
-
 -- Basic
 vim.opt.linebreak = true
 vim.opt.wrap = true
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
 vim.opt.relativenumber = true
+vim.opt.number = true
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
@@ -78,3 +73,4 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 --Enable lsps
 vim.lsp.enable("lua_ls")
+vim.lsp.enable("ty")

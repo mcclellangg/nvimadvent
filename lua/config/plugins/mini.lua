@@ -1,4 +1,4 @@
--- lua/custom/plugins/mini.lua
+-- lua/config/plugins/mini.lua
 return {
   {
     enabled = true,

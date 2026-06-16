@@ -14,6 +14,7 @@ vim.opt.termguicolors = true
 vim.opt.cursorline = true
 vim.opt.relativenumber = true
 vim.opt.number = true
+vim.api.nvim_set_hl(0, "Comment", { fg = "#FF0000" })
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',

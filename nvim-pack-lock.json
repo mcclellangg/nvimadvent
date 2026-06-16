@@ -1,0 +1,9 @@
+{
+  "plugins": {
+    "love2d.nvim": {
+      "rev": "ba7e1495c8df4a01c25a595f5c4dcd374f58d490",
+      "src": "https://github.com/S1M0N38/love2d.nvim",
+      "version": "3.0.0 - 4.0.0"
+    }
+  }
+}

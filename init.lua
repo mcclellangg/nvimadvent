@@ -41,6 +41,14 @@ vim.keymap.set("n", "<space>st", function()
   vim.api.nvim_win_set_height(0, 5)
 end)
 
+-- Dir Tree
+vim.keymap.set("n", "<space>dt", function()
+  vim.cmd.vnew()
+  vim.cmd.wincmd("H") --move to far left
+  vim.api.nvim_win_set_width(0, 30)
+  vim.cmd("Oil")
+end)
+
 -- ==== Markdown
 vim.api.nvim_create_autocmd("BufWritePre", {
   desc = "Autoformat markdown on window save",

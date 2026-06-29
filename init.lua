@@ -15,6 +15,7 @@ vim.opt.cursorline = true
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.api.nvim_set_hl(0, "Comment", { fg = "#FF0000" })
+vim.opt.scrolloff = 10
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
@@ -61,25 +62,28 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 -- Global LSP Attach Hook (Applies to ALL enabled servers)
--- Is this overkill for only lua ...
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if not client then return end
-
-    -- Global Format-on-Save
-    if client:supports_method("textDocument/formatting") then
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        buffer = args.buf,
-        callback = function()
-          vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
-        end,
-      })
-    end
-  end,
-})
-
+-- vim.api.nvim_create_autocmd("LspAttach", {
+--   group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
+--   callback = function(args)
+--     local client = vim.lsp.get_client_by_id(args.data.client_id)
+--     if not client then return end
+--
+--     -- Global Format-on-Save
+--     if client:supports_method("textDocument/formatting") then
+--       vim.api.nvim_create_autocmd("BufWritePre", {
+--         buffer = args.buf,
+--         callback = function()
+--           vim.lsp.buf.format({ bufnr = args.buf, id = client.id,
+--           options = {
+--             tabSize = vim.bo[args.buf].shiftwidth,
+--             insertSpaces = vim.bo[args.buf].expandtab,
+--           }})
+--         end,
+--       })
+--     end
+--   end,
+-- })
+--
 --Enable lsps
 vim.lsp.enable("lua_ls")
 vim.lsp.enable("ty")
